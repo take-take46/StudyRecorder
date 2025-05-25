@@ -1,0 +1,518 @@
+[
+  {
+    "term": "限界費用",
+    "description": "生産量を1単位増やしたときの追加費用で供給曲線の基礎。",
+    "importance": "完全競争では価格=限界費用が利潤最大条件として計算される。",
+    "category": "economics",
+    "isHidden": false,
+    "id": 1
+  },
+  {
+    "id": 2,
+    "term": "限界収入",
+    "description": "生産量を1単位増やしたときの追加収入。独占企業の価格設定で重要。",
+    "importance": "MR=ΔTR/ΔQ。利潤最大点はMR=MCで求める計算が頻出。",
+    "category": "economics"
+  },
+  {
+    "id": 4,
+    "term": "GDPデフレーター",
+    "description": "名目GDPを実質GDPで割った物価指数で包括的インフレ指標。",
+    "importance": "デフレーター=(名目GDP/実質GDP)×100。消費者物価指数との違いが問われる。",
+    "category": "economics"
+  },
+  {
+    "id": 11,
+    "term": "GMROI",
+    "description": "在庫1円が生む粗利益を示す小売効率指標。",
+    "importance": "GMROI=粗利益額/平均在庫投下額(原価)。1超が望ましく店舗比較に使用。",
+    "category": "finance"
+  },
+  {
+    "id": 12,
+    "term": "EVA",
+    "description": "税後NOPATから資本コストを差引いた経済的付加価値。",
+    "importance": "EVA=NOPAT−WACC×投下資本。プラスなら株主価値創造と判断。",
+    "category": "finance"
+  },
+  {
+    "id": 13,
+    "term": "NPV",
+    "description": "投資CFを割引現在価値で合計した採算指標。",
+    "importance": "NPV=∑(CF_t/(1+r)^t)−初期投資。NPV>0で投資案採択。",
+    "category": "finance"
+  },
+  {
+    "id": 14,
+    "term": "WACC",
+    "description": "負債と株主資本の加重平均資本コスト。",
+    "importance": "WACC=Ke×E/(D+E)+Kd(1−T)×D/(D+E)。割引率設定で頻出。",
+    "category": "finance"
+  },
+  {
+    "id": 15,
+    "term": "キャッシュ・コンバージョン・サイクル",
+    "description": "在庫・売掛・買掛回転日数で示す資金回収期間。",
+    "importance": "CCC=DIO+DSO−DPO。短縮により運転資金を圧縮。",
+    "category": "finance"
+  },
+  {
+    "id": 16,
+    "term": "デュポン・システム",
+    "description": "ROEを利益率×回転率×レバレッジに分解。",
+    "importance": "ROE=NetMargin×AssetTurnover×EquityMultiplier。改善策を分析する問題で使用。",
+    "category": "finance"
+  },
+  {
+    "id": 17,
+    "term": "当座比率",
+    "description": "棚卸資産を除いた流動比率で即時支払能力を測定。",
+    "importance": "QuickRatio=(現金+売掛+有価証券)/流動負債×100%。100%以上が目安。",
+    "category": "finance"
+  },
+  {
+    "id": 18,
+    "term": "固定長期適合率",
+    "description": "固定資産を長期安定資金で賄えているかを測る。",
+    "importance": "率=固定資産/(自己資本+固定負債)×100%。100%以下が望ましい。",
+    "category": "finance"
+  },
+  {
+    "id": 19,
+    "term": "IRR",
+    "description": "NPVを0にする割引率で投資案件の収益性を示す。",
+    "importance": "IRR>WACCなら採択。試験では試行錯誤計算やexcel推定が問われる。",
+    "category": "finance"
+  },
+  {
+    "id": 20,
+    "term": "負債比率",
+    "description": "総資産に対する負債の割合。財務リスクの尺度。",
+    "importance": "DebtRatio=総負債/総資産×100%。業種平均との比較が出題。",
+    "category": "finance"
+  },
+  {
+    "id": 22,
+    "term": "PEST分析",
+    "description": "政治・経済・社会・技術の4視点で外部環境を俯瞰。",
+    "importance": "要因抽出→機会脅威へ接続する論述問題が頻出。",
+    "category": "management"
+  },
+  {
+    "id": 23,
+    "term": "ファイブフォース分析",
+    "description": "業界の競争強度を5要因で定量的に評価するフレーム。",
+    "importance": "既存競合・新規参入・代替・買い手・売り手の圧力を順位付けできるかが問われる。",
+    "category": "management"
+  },
+  {
+    "id": 24,
+    "term": "バリューチェーン分析",
+    "description": "主活動と支援活動に分解し価値創造源を特定。",
+    "importance": "コストドライバーと差別化ポイントを示し競争優位を論述。",
+    "category": "management"
+  },
+  {
+    "id": 25,
+    "term": "VRIO分析",
+    "description": "価値・希少性・模倣困難性・組織を基準に資源を評価。",
+    "importance": "4要素が全てYesなら持続的競争優位。判定根拠を示す設問が定番。",
+    "category": "management"
+  },
+  {
+    "id": 26,
+    "term": "PPM",
+    "description": "市場成長率×市場シェアで事業を花形等4象限に配置。",
+    "importance": "資源配分と撤退判断を問題で図示するケースが多い。",
+    "category": "management"
+  },
+  {
+    "id": 27,
+    "term": "バランスト・スコアカード",
+    "description": "財務・顧客・業務プロセス・学習成長の4視点で戦略をKPI化。",
+    "importance": "戦略マップで因果連鎖を描き目標値を設定する手順を問われる。",
+    "category": "management"
+  },
+  {
+    "id": 28,
+    "term": "リーンスタートアップ",
+    "description": "MVP→仮説検証→ピボットを高速反復する新規事業手法。",
+    "importance": "Build‑Measure‑Learnサイクルを図示できるかが論述で鍵。",
+    "category": "management"
+  },
+  {
+    "id": 29,
+    "term": "コア・コンピタンス",
+    "description": "多事業に波及し模倣困難な中核能力。",
+    "importance": "条件: 顧客価値, 競合難模倣, 多市場展開。特定例を挙げる設問に注意。",
+    "category": "management"
+  },
+  {
+    "id": 30,
+    "term": "マトリックス組織",
+    "description": "職能軸と事業軸など2軸で重層管理する組織形態。",
+    "importance": "報告関係が複雑化するが環境変化対応力向上。利点欠点を比較。",
+    "category": "management"
+  },
+  {
+    "id": 31,
+    "term": "EOQ",
+    "description": "発注と保管費合計を最小化する最適発注量。",
+    "importance": "EOQ=√(2DS/H)。計算小問で年需要Dなど数値代入される。",
+    "category": "operation"
+  },
+  {
+    "id": 32,
+    "term": "タクトタイム",
+    "description": "顧客需要に基づく1個あたり生産許容時間。",
+    "importance": "Takt=稼働時間/必要数。ラインバランス問題に直結。",
+    "category": "operation"
+  },
+  {
+    "id": 33,
+    "term": "5S",
+    "description": "整理・整頓・清掃・清潔・しつけの職場改善活動。",
+    "importance": "各Sの具体例を問う穴埋め問題が定番。",
+    "category": "operation"
+  },
+  {
+    "id": 34,
+    "term": "かんばん方式",
+    "description": "後工程引取信号で部品補充するプル生産。",
+    "importance": "二枚かんばんで数量・種別管理。JIT設問で図示される。",
+    "category": "operation"
+  },
+  {
+    "id": 35,
+    "term": "TOC",
+    "description": "制約工程を最適化しスループットを最大化する理論。",
+    "importance": "DBR(Drum‑Buffer‑Rope)や5ステップ改善手順を問われる。",
+    "category": "operation"
+  },
+  {
+    "id": 36,
+    "term": "シックスシグマ",
+    "description": "100万回当たり3.4欠陥を目標に統計手法で改善。",
+    "importance": "DMAIC手順とZ値計算(σ)を理解。",
+    "category": "operation"
+  },
+  {
+    "id": 37,
+    "term": "TPM",
+    "description": "全員参加で設備総合効率を高める保全方式。",
+    "importance": "OEE=稼働率×性能×品質。小問でOEE算出が出る。",
+    "category": "operation"
+  },
+  {
+    "id": 38,
+    "term": "JIT",
+    "description": "必要なものを必要な時に必要量だけ生産する方式。",
+    "importance": "在庫ゼロ化とリードタイム短縮の効果を論述。",
+    "category": "operation"
+  },
+  {
+    "id": 39,
+    "term": "MRP",
+    "description": "製品構成表と需要計画から部品所要量と発注時期を算定。",
+    "importance": "BOMとリードタイムオフセットを図解する設問が定番。",
+    "category": "operation"
+  },
+  {
+    "id": 40,
+    "term": "OEE",
+    "description": "設備の実効稼働効率を示す総合指標。",
+    "importance": "OEE=稼働率×性能効率×良品率。改善優先度を特定する問題。",
+    "category": "operation"
+  },
+  {
+    "id": 51,
+    "term": "CRUD操作",
+    "description": "Create Read Update Deleteのデータ基本操作。",
+    "importance": "HTTP対応: POST, GET, PUT/PATCH, DELETE。UMLシーケンスも描けると良い。",
+    "category": "it"
+  },
+  {
+    "id": 52,
+    "term": "APIエコノミー",
+    "description": "API公開により外部連携し価値共創する経済圏。",
+    "importance": "REST/JSONが主流、鍵はAPIキーとレート制限。",
+    "category": "it"
+  },
+  {
+    "id": 53,
+    "term": "PKI",
+    "description": "公開鍵証明書をCAが発行し通信相手を認証する基盤。",
+    "importance": "TLSハンドシェイクでサーバ証明書を検証。RSA/ECDSA署名が頻出。",
+    "category": "it"
+  },
+  {
+    "id": 54,
+    "term": "VPN(IPsec)",
+    "description": "IPレベルで暗号化トンネルを構築するリモート接続技術。",
+    "importance": "AH/ESPヘッダとトンネル/トランスポート2モードを図示。",
+    "category": "it"
+  },
+  {
+    "id": 55,
+    "term": "DNSラウンドロビン",
+    "description": "複数Aレコードを順番に返し負荷分散を実現。",
+    "importance": "セッション維持不可とヘルスチェック無しの弱点が問われる。",
+    "category": "it"
+  },
+  {
+    "id": 56,
+    "term": "Zero Trust",
+    "description": "ネットワーク境界を信用せず常時認証と最小権限を要求。",
+    "importance": "NIST SP800-207が参照。マイクロセグメンテーション例を挙げる。",
+    "category": "it"
+  },
+  {
+    "id": 57,
+    "term": "RPA",
+    "description": "定型業務をソフトウェアロボットで自動化。",
+    "importance": "処理対象: UI操作型。導入効果とガバナンス問題が試問に。",
+    "category": "it"
+  },
+  {
+    "id": 58,
+    "term": "データレイク",
+    "description": "生データをスキーマ未定のまま蓄積する大容量ストア。",
+    "importance": "ETL不要だがデータ品質管理(ガバナンス)課題を論ぜよ。",
+    "category": "it"
+  },
+  {
+    "id": 59,
+    "term": "BIツール",
+    "description": "企業内データを可視化し意思決定を支援する分析ソフト。",
+    "importance": "ETL→DWH→BIの流れを図示しOLAP分析を説明。",
+    "category": "it"
+  },
+  {
+    "id": 60,
+    "term": "SDLC",
+    "description": "要件→設計→実装→テスト→運用→保守の開発ライフサイクル。",
+    "importance": "ウォーターフォールとアジャイルの比較が頻出。",
+    "category": "it"
+  },
+  {
+    "id": 62,
+    "term": "小規模事業者持続化補助金",
+    "description": "販路開拓に最大50–200万円補助し自己負担2/3。",
+    "importance": "従業員20人(商業5人)以下が対象、様式2の経営計画書が鍵。",
+    "category": "sme"
+  },
+  {
+    "id": 67,
+    "term": "事業承継税制",
+    "description": "自社株贈与・相続にかかる納税を猶予し後継者負担を軽減。",
+    "importance": "特例制度は贈与株式100%対象、5年間雇用8割維持要件。",
+    "category": "sme"
+  },
+  {
+    "id": 70,
+    "term": "ものづくり補助金",
+    "description": "革新的製品開発設備投資を最大1.25億円補助。",
+    "importance": "補助率1/2〜2/3、グリーン枠とデジタル枠の要件差に注意。",
+    "category": "sme"
+  },
+  {
+    "term": "取締役と監査役の任期",
+    "description": "取締役は２年、監査役は４年。監査役は任期短縮不可。会計参与の任期は２年",
+    "importance": "株式譲渡制限会社では定款により10年まで伸長可能",
+    "category": "law",
+    "isHidden": false,
+    "id": 71
+  },
+  {
+    "term": "会計監査人",
+    "description": "会計監査人の任期は1年。大会社は必ず会計監査人を設置しなくてはならない。大会社は資本金５億円以上または負債総額200億円以上",
+    "importance": "公認会計士または監査法人のみがなれる",
+    "category": "law",
+    "isHidden": false,
+    "id": 72
+  },
+  {
+    "term": "持分会社",
+    "description": "合名会社、合資会社、合同会社の総称",
+    "importance": "合名会社：無限責任社員のみの持分会社。合同会社：有限責任社員のみ。合資会社：有限、無限いずれも存在",
+    "category": "law",
+    "isHidden": false,
+    "id": 73
+  },
+  {
+    "term": "事業譲渡",
+    "description": "事業の全部または一部を譲渡する。債権者保護手続きは不要",
+    "importance": "事業の全部譲渡または重要な一部譲渡の場合、株主総会の特別決議必要。譲受会社は全部省都の場合のみ特別決議必要",
+    "category": "law",
+    "isHidden": false,
+    "id": 74
+  },
+  {
+    "term": "独占企業の利潤最大化条件",
+    "description": "限界収入＝限界費用",
+    "importance": "ちんこ",
+    "category": "economics",
+    "isHidden": false,
+    "id": 75
+  },
+  {
+    "term": "民法組合",
+    "description": "個人事業者の団体版。法人格はない。登記は不要。法人課税ではなく、パススルー課税が適用される・",
+    "importance": "有限責任事業組合（LLP)は、民法組合の特例",
+    "category": "law",
+    "isHidden": false,
+    "id": 76
+  },
+  {
+    "term": "三面等価の原則",
+    "description": "生産面、支出面、分配面から見たGDPが等しい",
+    "importance": "それぞれは事後的に一致する",
+    "category": "economics",
+    "isHidden": false,
+    "id": 77
+  },
+  {
+    "term": "生産面から見たGDP",
+    "description": "付加価値（生産額ー中間投入額）の合計",
+    "importance": "１、２、３の各産業が生み出した付加価値の合計。生産→支出→所得",
+    "category": "economics",
+    "isHidden": false,
+    "id": 78
+  },
+  {
+    "term": "支出面から見たGDP（GDE)",
+    "description": "民間・政府最終支出＋国内総固定資本形成＋在庫品増加＋輸出ー輸入",
+    "importance": "GDP＝民間消費＋政府支出＋投資＋（輸出ー輸入）ともとれる",
+    "category": "economics",
+    "isHidden": false,
+    "id": 79
+  },
+  {
+    "term": "分配面から見たGDP",
+    "description": "雇用者報酬＋営業余剰・混合所得＋固定資本減耗＋間接税ー補助金",
+    "importance": "営業余剰：企業が得た利益。固定資産減耗：設備などの減価償却。間接税の理由：GDPに含まれるのは生産に関する所得で、間接税はサービスを生産・販売したときに課される税であるため。法人税や所得税などの直接税は、生産には関係しないため、GDPの計算とは無関係",
+    "category": "economics",
+    "isHidden": false,
+    "id": 80
+  },
+  {
+    "term": "名目利子率と実質利子率の関係",
+    "description": "実質利子率＝名目利子率ー期待インフレ率（物価上昇率）",
+    "importance": "インフレ率が高いと、名目金利が高くても実質では損をする可能性がある。投資や融資の本当の価値を判断するには、実質利子率をみる",
+    "category": "economics",
+    "isHidden": false,
+    "id": 81
+  },
+  {
+    "term": "消費者物価指数（CPI)",
+    "description": "基準時点の数量をウェイトとするラスパレイス方式を用いて算出する。景気動向指数は遅行系列",
+    "importance": "追記",
+    "category": "economics",
+    "isHidden": false,
+    "id": 82
+  },
+  {
+    "term": "物価指数",
+    "description": "パーシェ：比較時点（現在）の数量を基準にする。\nラスパレイス:基準時点（過去）の数量を基準にする。",
+    "importance": "日銀のインフレ目標の基準。一般家庭が購入する財・サービスの価格動向。",
+    "category": "economics",
+    "isHidden": false,
+    "id": 83
+  },
+  {
+    "term": "マネーサプライ（マネーストック）",
+    "description": "通貨保有主体（金融機関・中央政府を除いた経済主体）が保有する通貨（現金通貨だけでなく預金通貨も含む）の残高",
+    "importance": "マネーサプライ＝流通現金＋預金。流通現金には金融部門の保有分は含まない。",
+    "category": "economics",
+    "isHidden": false,
+    "id": 84
+  },
+  {
+    "term": "マネタリーベース（ハイパワードマネー）",
+    "description": "日本銀行が世の中に直接的に供給するお金。流通現金＋日本銀行当座預金",
+    "importance": "追記",
+    "category": "economics",
+    "isHidden": false,
+    "id": 85
+  },
+  {
+    "term": "貨幣乗数",
+    "description": "マネーサプライがマネタリーベースの何倍になるかを表した数値",
+    "importance": "準備率、現金預金比率が小さいと貨幣乗数は大きくなる",
+    "category": "economics",
+    "isHidden": false,
+    "id": 86
+  },
+  {
+    "term": "セイの法則",
+    "description": "国民所得は供給サイドから決定される（供給はそれ自身の需要を創造する）需要を増やすには供給を増やせば良いという古典派の考え",
+    "importance": "古典派とケインズ派の違い。ケインズ派は需要（消費）から考える。古典派は市場の価格調整機能を前提とするが、ケインズ派は政府の介入が必要と考える",
+    "category": "economics",
+    "isHidden": false,
+    "id": 87
+  },
+  {
+    "term": "トービンのq",
+    "description": "企業の市場価値を現在の資本ストックを買い換える費用総額で除したもの",
+    "importance": "追記",
+    "category": "economics",
+    "isHidden": false,
+    "id": 88
+  },
+  {
+    "term": "中小企業の企業数",
+    "description": "小売→建設→宿泊・飲食サービス→製造業",
+    "importance": "乃木坂の人数は40人",
+    "category": "sme",
+    "isHidden": false,
+    "id": 89
+  },
+  {
+    "term": "中小企業の従業者数",
+    "description": "全体の約7割。製造業→小売業→宿泊・飲食サービス→建設業",
+    "importance": "追記",
+    "category": "sme",
+    "isHidden": false,
+    "id": 90
+  },
+  {
+    "term": "中小企業の売上高",
+    "description": "卸売→製造→建設→小売",
+    "importance": "追記",
+    "category": "management",
+    "isHidden": false,
+    "id": 91
+  },
+  {
+    "term": "中小企業基本法の中小企業の定義",
+    "description": "製造、建設、運輸、その他：資本金3億以下、従業員数300以下。卸売：資本金1億以下、従業員数100以下。小売、飲食：資本金5千万以下、従業員数50以下。サービス業：資本金5千万以下、従業員数100以下",
+    "importance": "資本金基準、従業員基準のどちらかを満たせば良い",
+    "category": "sme",
+    "isHidden": false,
+    "id": 92
+  },
+  {
+    "term": "中小企業基本法の小規模事業者の定義",
+    "description": "製造、建設、運輸、その他：従業員数20人以下。\n商業（卸売、飲食、小売）、サービス業：従業員数5人以下。",
+    "importance": "小規模事業者の定義は従業員基準のみ",
+    "category": "sme",
+    "isHidden": false,
+    "id": 93
+  },
+  {
+    "term": "女性、若者/シニア起業家支援資金",
+    "description": "事業開始後概ね7年以内の女性、35歳未満か55歳以上の男性を対象に行われる融資制度",
+    "importance": "じじいこそ起業しろ",
+    "category": "sme",
+    "isHidden": false,
+    "id": 94
+  },
+  {
+    "term": "地域未来投資促進法",
+    "description": "地域経済牽引促進事業を促進することを目的とする法律",
+    "importance": "国が基本方針を作成→市町村・都道府県が基本計画を作成→事業者が地域経済牽引事業計画を策定→都道府県知事が承認",
+    "category": "sme",
+    "isHidden": false,
+    "id": 95
+  }
+]
