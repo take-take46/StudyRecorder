@@ -11,10 +11,10 @@ const notoSansJP = Noto_Sans_JP({
 })
 
 export const metadata: Metadata = {
-  title: '中小企業診断士試験タイピング練習',
-  description: '中小企業診断士の資格試験勉強とタイピング練習を同時に行うアプリケーション',
-  keywords: '中小企業診断士, タイピング練習, 資格試験, 学習ツール',
-  authors: [{ name: '中小企業診断士タイピング練習アプリ開発チーム' }],
+  title: '中小企業診断士試験たけちゃんスペシャルツール',
+  description: '一次試験対策の総合学習ツール。タイピング練習、スコア記録・分析で効率的に合格を目指す',
+  keywords: '中小企業診断士, 一次試験, タイピング練習, スコア管理, 学習ツール, たけちゃん',
+  authors: [{ name: 'たけちゃんスペシャルツール開発チーム' }],
 }
 
 export default function RootLayout({
@@ -34,7 +34,7 @@ export default function RootLayout({
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                <h1 className="text-2xl font-bold">中小企業診断士試験タイピング練習</h1>
+                <h1 className="text-2xl font-bold">中小企業診断士試験たけちゃんスペシャルツール</h1>
               </div>
               <nav className="hidden md:flex space-x-6">
                 <a href="/" className="text-white hover:text-gray-200 transition">ホーム</a>
@@ -62,10 +62,10 @@ export default function RootLayout({
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
-                    <span className="font-bold">中小企業診断士タイピング練習</span>
+                    <span className="font-bold">中小企業診断士試験たけちゃんスペシャルツール</span>
                   </div>
                   <p className="mt-2 text-sm text-gray-400">
-                    効率的に学習しながらタイピングスキルも向上
+                    一次試験対策の総合学習ツール
                   </p>
                 </div>
                 
@@ -85,7 +85,7 @@ export default function RootLayout({
               </div>
               
               <div className="mt-8 pt-8 border-t border-gray-700 text-sm text-center text-gray-400">
-                <p>© {currentYear} 中小企業診断士試験タイピング練習アプリ All rights reserved.</p>
+                <p>© {currentYear} 中小企業診断士試験たけちゃんスペシャルツール All rights reserved.</p>
               </div>
             </div>
           </footer>

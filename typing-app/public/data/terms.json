@@ -120,38 +120,10 @@
     "category": "management"
   },
   {
-    "id": 26,
-    "term": "PPM",
-    "description": "市場成長率×市場シェアで事業を花形等4象限に配置。",
-    "importance": "資源配分と撤退判断を問題で図示するケースが多い。",
-    "category": "management"
-  },
-  {
-    "id": 27,
-    "term": "バランスト・スコアカード",
-    "description": "財務・顧客・業務プロセス・学習成長の4視点で戦略をKPI化。",
-    "importance": "戦略マップで因果連鎖を描き目標値を設定する手順を問われる。",
-    "category": "management"
-  },
-  {
     "id": 28,
     "term": "リーンスタートアップ",
     "description": "MVP→仮説検証→ピボットを高速反復する新規事業手法。",
     "importance": "Build‑Measure‑Learnサイクルを図示できるかが論述で鍵。",
-    "category": "management"
-  },
-  {
-    "id": 29,
-    "term": "コア・コンピタンス",
-    "description": "多事業に波及し模倣困難な中核能力。",
-    "importance": "条件: 顧客価値, 競合難模倣, 多市場展開。特定例を挙げる設問に注意。",
-    "category": "management"
-  },
-  {
-    "id": 30,
-    "term": "マトリックス組織",
-    "description": "職能軸と事業軸など2軸で重層管理する組織形態。",
-    "importance": "報告関係が複雑化するが環境変化対応力向上。利点欠点を比較。",
     "category": "management"
   },
   {
@@ -479,7 +451,7 @@
     "term": "中小企業の売上高",
     "description": "卸売→製造→建設→小売",
     "importance": "追記",
-    "category": "management",
+    "category": "sme",
     "isHidden": false,
     "id": 91
   },
@@ -514,5 +486,29 @@
     "category": "sme",
     "isHidden": false,
     "id": 95
+  },
+  {
+    "term": "欲求段階説",
+    "description": "人間の欲求を生理的欲求、安全の欲求、社会的欲求（徐族と愛の欲求）、自我の欲求、自己実現の５つのカテゴリーに分類",
+    "importance": "低次元の欲求が満たされると上の欲求を満たそうとする。低次元の欲求が一旦満たされると、それは動機づけの要因にはならない",
+    "category": "management",
+    "isHidden": false,
+    "id": 96
+  },
+  {
+    "term": "ERG理論",
+    "description": "人間の欲求を存在欲求、関係欲求、成長欲求の３つに分類。これらは相互に影響を与える",
+    "importance": "ある欲求が満たされないとき、それを追求し続けるのではなく、他の欲求も満たそうとします",
+    "category": "management",
+    "isHidden": false,
+    "id": 97
+  },
+  {
+    "term": "カスタマージャーニー",
+    "description": "顧客が商品やサービスを知ってから購入や利用に至るまでのプロセスを示したもの",
+    "importance": "認知→興味→検討→購入→推奨",
+    "category": "management",
+    "isHidden": false,
+    "id": 98
   }
 ]
