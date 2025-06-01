@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { ScoreRecord, Subject, SUBJECTS } from '@/types/score';
 import { getScores } from '@/utils/scoreStorage';
-import { calculateYearlyTotals, calculateSubjectAverages, getYearlySubjectData, getProgressData, getScoreStats, getYearlySubjectDistribution } from '@/utils/scoreAnalytics';
+import { calculateYearlyTotals, calculateSubjectAverages, getYearlySubjectData, getProgressData, getScoreStats, getYearlySubjectDistribution, getSubjectYearlyComparison, getComprehensiveResults } from '@/utils/scoreAnalytics';
 
 const COLORS = ['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#6B7280'];
 
@@ -145,7 +145,7 @@ export default function AnalyticsPage() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            📈 推移
+            📊 総合結果
           </button>
         </div>
       </div>
@@ -298,69 +298,24 @@ export default function AnalyticsPage() {
                     {year}年{yearlyFilterSubject ? ` - ${yearlyFilterSubject}` : ''}
                   </h4>
                   {yearData.length > 0 ? (
-                    <div className="space-y-6">
-                      {/* グラフ表示 */}
-                      <div>
-                        <h5 className="text-md font-semibold text-gray-800 mb-3">スコア分布グラフ</h5>
-                        {yearData.map(({ subject, scores }) => {
-                          const chartData = scores.map((scoreData, index) => ({
-                            ...scoreData,
-                            attempt: `${index + 1}回目`,
-                            dateLabel: new Date(scoreData.date).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })
-                          }));
-                          
-                          return (
-                            <div key={subject} className="mb-4">
-                              <h6 className="text-sm font-medium text-gray-700 mb-2">{subject}</h6>
-                              <ResponsiveContainer width="100%" height={250}>
-                                <BarChart data={chartData}>
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis 
-                                    dataKey="attempt"
-                                    tick={{ fontSize: 12 }}
-                                  />
-                                  <YAxis domain={[0, 100]} />
-                                  <Tooltip 
-                                    labelFormatter={(value) => `受験回数: ${value}`}
-                                    formatter={(value, name, props) => [
-                                      `${value}点`,
-                                      'スコア',
-                                      `実施日: ${props.payload.dateLabel}`
-                                    ]}
-                                  />
-                                  <Bar 
-                                    dataKey="score" 
-                                    fill={COLORS[SUBJECTS.indexOf(subject as Subject) % COLORS.length]}
-                                    name="スコア"
-                                  />
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      
-                      {/* 詳細リスト表示 */}
-                      <div className="space-y-4">
-                        <h5 className="text-md font-semibold text-gray-800">詳細データ</h5>
-                        {yearData.map(({ subject, scores, count }) => (
-                          <div key={subject} className="bg-gray-50 p-4 rounded-lg">
-                            <h6 className="font-medium text-gray-800 mb-2">{subject} ({count}回受験)</h6>
-                            <div className="grid gap-2">
-                              {scores.map((scoreData, index) => (
-                                <div key={scoreData.id} className="flex justify-between items-center p-2 bg-white rounded border">
-                                  <span className="text-sm text-gray-600">{scoreData.date}</span>
-                                  <span className={`px-3 py-1 rounded text-sm font-bold ${
-                                    scoreData.score >= 60 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                  }`}>
-                                    {scoreData.score}点
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
+                    <div className="space-y-4">
+                      {yearData.map(({ subject, scores, count }) => (
+                        <div key={subject} className="bg-gray-50 p-4 rounded-lg">
+                          <h5 className="font-medium text-gray-800 mb-2">{subject} ({count}回受験)</h5>
+                          <div className="grid gap-2">
+                            {scores.map((scoreData, index) => (
+                              <div key={scoreData.id} className="flex justify-between items-center p-2 bg-white rounded border">
+                                <span className="text-sm text-gray-600">{scoreData.date}</span>
+                                <span className={`px-3 py-1 rounded text-sm font-bold ${
+                                  scoreData.score >= 60 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                }`}>
+                                  {scoreData.score}点
+                                </span>
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <div className="text-center py-8 text-gray-500">
@@ -435,6 +390,72 @@ export default function AnalyticsPage() {
                 })()}
               </div>
             </div>
+          ) : selectedSubject ? (
+            <div>
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-lg font-semibold text-gray-800 mb-2">{selectedSubject}の年度別成績比較</h4>
+                {(() => {
+                  const yearlyComparison = getSubjectYearlyComparison(scores, selectedSubject);
+                  return (
+                    <div>
+                      {/* 年度比較ヒストグラム */}
+                      <div className="mb-6">
+                        <h5 className="text-md font-semibold text-gray-800 mb-3">年度別最高得点比較</h5>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <BarChart data={yearlyComparison}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis 
+                              dataKey="year" 
+                              tick={{ fontSize: 12 }}
+                            />
+                            <YAxis domain={[0, 100]} />
+                            <Tooltip 
+                              formatter={(value, name) => [`${value}点`, name]}
+                              labelFormatter={(value) => `${value}年`}
+                            />
+                            <Legend />
+                            <Bar dataKey="score" fill="#10B981" name="最高得点" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                      
+                      {/* 詳細データ表 */}
+                      <div className="space-y-2">
+                        <h5 className="text-md font-semibold text-gray-800 mb-2">年度別詳細データ</h5>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead className="bg-gray-100">
+                              <tr>
+                                <th className="px-4 py-2 text-left">年度</th>
+                                <th className="px-4 py-2 text-center">最高得点</th>
+                                <th className="px-4 py-2 text-center">平均点</th>
+                                <th className="px-4 py-2 text-center">受験回数</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                              {yearlyComparison.map(({ year, score, average, count }) => (
+                                <tr key={year} className="hover:bg-gray-50">
+                                  <td className="px-4 py-2 font-medium">{year}年</td>
+                                  <td className="px-4 py-2 text-center">
+                                    <span className={`px-2 py-1 rounded text-sm font-bold ${
+                                      score >= 60 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                    }`}>
+                                      {score}点
+                                    </span>
+                                  </td>
+                                  <td className="px-4 py-2 text-center">{average}点</td>
+                                  <td className="px-4 py-2 text-center">{count}回</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
           ) : (
             <ResponsiveContainer width="100%" height={400}>
               <PieChart>
@@ -461,30 +482,67 @@ export default function AnalyticsPage() {
 
       {viewMode === 'progress' && (
         <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">スコア推移</h3>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={progressData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date"
-                tick={{ fontSize: 12 }}
-              />
-              <YAxis domain={[0, 100]} />
-              <Tooltip 
-                labelFormatter={(value) => `日付: ${value}`}
-                formatter={(value, name) => [`${value}点`, name]}
-              />
-              <Legend />
-              <Line 
-                type="monotone" 
-                dataKey="score" 
-                stroke="#3B82F6" 
-                strokeWidth={2}
-                name="スコア"
-                dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <h3 className="text-xl font-bold text-gray-800 mb-6">総合結果</h3>
+          {(() => {
+            const comprehensiveResults = getComprehensiveResults(scores);
+            
+            if (comprehensiveResults.length === 0) {
+              return (
+                <div className="text-center py-12 text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  <p>まだスコアが記録されていません</p>
+                </div>
+              );
+            }
+            
+            return (
+              <div className="space-y-6">
+                {comprehensiveResults.map(({ year, subjects, totalScore, isPass, passStatus, subjectCount }) => (
+                  <div key={year} className="border border-gray-200 rounded-lg overflow-hidden">
+                    <div className={`p-4 ${isPass ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-lg font-bold text-gray-800">{year}年度</h4>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-gray-800">{totalScore}点</div>
+                            <div className="text-sm text-gray-600">合計点</div>
+                          </div>
+                          <div className={`px-4 py-2 rounded-lg font-bold text-lg ${
+                            isPass ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                          }`}>
+                            {passStatus}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="mb-3 text-sm text-gray-600">
+                        受験科目数: {subjectCount}科目
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {SUBJECTS.map(subject => (
+                          <div key={subject} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span className="font-medium text-gray-700">{subject}</span>
+                            {subjects[subject] !== undefined ? (
+                              <span className={`px-3 py-1 rounded text-sm font-bold ${
+                                subjects[subject] >= 60 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                              }`}>
+                                {subjects[subject]}点
+                              </span>
+                            ) : (
+                              <span className="text-gray-400 text-sm">未受験</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       )}
 

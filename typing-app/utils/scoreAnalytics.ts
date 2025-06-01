@@ -143,3 +143,52 @@ export const getYearlySubjectDistribution = (scores: ScoreRecord[], year: number
     passStatus: isPass ? '合格' : '不合格'
   };
 };
+
+export const getSubjectYearlyComparison = (scores: ScoreRecord[], subject: Subject) => {
+  const subjectScores = scores.filter(score => score.subject === subject);
+  const yearGroups = subjectScores.reduce((acc, score) => {
+    if (!acc[score.year]) {
+      acc[score.year] = [];
+    }
+    acc[score.year].push(score.score);
+    return acc;
+  }, {} as Record<number, number[]>);
+
+  return Object.entries(yearGroups)
+    .map(([year, scores]) => ({
+      year: parseInt(year),
+      score: Math.max(...scores),
+      average: Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10,
+      count: scores.length,
+      allScores: scores.sort((a, b) => b - a)
+    }))
+    .sort((a, b) => a.year - b.year);
+};
+
+export const getComprehensiveResults = (scores: ScoreRecord[]) => {
+  const years = Array.from(new Set(scores.map(score => score.year))).sort((a, b) => b - a);
+  
+  return years.map(year => {
+    const yearScores = scores.filter(score => score.year === year);
+    const subjectData: Record<Subject, number> = {} as Record<Subject, number>;
+    
+    // 各科目の最高点を取得
+    yearScores.forEach(score => {
+      if (!subjectData[score.subject] || subjectData[score.subject] < score.score) {
+        subjectData[score.subject] = score.score;
+      }
+    });
+    
+    const totalScore = Object.values(subjectData).reduce((sum, score) => sum + score, 0);
+    const isPass = totalScore >= 360;
+    
+    return {
+      year,
+      subjects: subjectData,
+      totalScore,
+      isPass,
+      passStatus: isPass ? '合格' : '不合格',
+      subjectCount: Object.keys(subjectData).length
+    };
+  });
+};
