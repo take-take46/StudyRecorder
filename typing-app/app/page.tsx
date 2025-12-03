@@ -4,7 +4,7 @@ export default function Home() {
       {/* ヒーローセクション */}
       <section className="mb-12 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-12 shadow-xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
-          <span className="text-yellow-300">たけいちすぺしゃるツール</span>
+          <span className="text-yellow-300">たけちゃんすぺしゃるツール</span>
         </h1>
         <p className="text-xl text-blue-100 mb-8 max-w-4xl mx-auto">
           学習や作業効率化に役立つ様々なツールを提供する総合プラットフォーム。あなたの目標達成をサポートします。
@@ -106,7 +106,7 @@ export default function Home() {
 
       {/* 特徴セクション */}
       <section className="bg-white rounded-xl p-8 shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">たけいちすぺしゃるツールの特徴</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">たけちゃんすぺしゃるツールの特徴</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div className="flex items-start">
