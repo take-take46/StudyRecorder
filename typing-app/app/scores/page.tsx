@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ScoreRecord, Subject, SUBJECTS } from '@/types/score';
 import { saveScore, getScores, deleteScore } from '@/utils/scoreStorage';
+import { findStoredScoreData, getAllLocalStorageKeys, migrateScoreData, createSampleScores } from '@/utils/dataRecovery';
 
 export default function ScoresPage() {
   const [scores, setScores] = useState<ScoreRecord[]>([]);
@@ -17,6 +18,10 @@ export default function ScoresPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'grouped' | 'table'>('grouped');
+  const [showRecovery, setShowRecovery] = useState(false);
+  const [recoveryData, setRecoveryData] = useState<{ key: string; data: ScoreRecord[] } | null>(null);
+  const [importText, setImportText] = useState('');
+  const [showImport, setShowImport] = useState(false);
 
   useEffect(() => {
     loadScores();
@@ -26,9 +31,116 @@ export default function ScoresPage() {
     try {
       const loadedScores = getScores();
       setScores(loadedScores.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+      
+      // データが空の場合は復元オプションを表示
+      if (loadedScores.length === 0) {
+        const found = findStoredScoreData();
+        if (found) {
+          setRecoveryData(found);
+          setShowRecovery(true);
+        }
+      }
     } catch (error) {
       setError('データの読み込みに失敗しました');
     }
+  };
+
+  const handleDataRecovery = () => {
+    if (recoveryData) {
+      try {
+        // 既存の正しいキーにデータを復元
+        if (migrateScoreData(recoveryData.key, 'takechan_special_tool_scores')) {
+          loadScores();
+          setShowRecovery(false);
+          setRecoveryData(null);
+          alert('データを復元しました！');
+        }
+      } catch (error) {
+        console.error('復元に失敗:', error);
+        alert('データの復元に失敗しました');
+      }
+    }
+  };
+
+  const handleExport = () => {
+    try {
+      if (scores.length === 0) {
+        alert('エクスポートできるスコアデータがありません');
+        return;
+      }
+      const json = JSON.stringify(scores, null, 2);
+      void navigator.clipboard.writeText(json);
+      alert('スコアデータをクリップボードにコピーしました！\n別の環境のインポート欄に貼り付けてください。');
+    } catch (error) {
+      console.error('エクスポートに失敗:', error);
+      alert('スコアデータのエクスポートに失敗しました');
+    }
+  };
+
+  const handleImport = () => {
+    try {
+      if (!importText.trim()) {
+        alert('インポートするJSON文字列を入力してください');
+        return;
+      }
+
+      const parsed = JSON.parse(importText);
+      if (!Array.isArray(parsed)) {
+        alert('配列形式のJSONではありません。スコア一覧のJSONを貼り付けてください。');
+        return;
+      }
+
+      const normalized: ScoreRecord[] = parsed.map((item) => {
+        return {
+          id: item.id ?? `imported_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          subject: item.subject,
+          year: item.year,
+          score: item.score,
+          date: item.date,
+          createdAt: item.createdAt ?? new Date().toISOString()
+        } as ScoreRecord;
+      });
+
+      // 既存データとマージ（重複IDは上書き）
+      const current = getScores();
+      const byId = new Map<string, ScoreRecord>();
+      [...current, ...normalized].forEach((s) => byId.set(s.id, s));
+
+      localStorage.setItem('takechan_special_tool_scores', JSON.stringify(Array.from(byId.values())));
+      setImportText('');
+      setShowImport(false);
+      loadScores();
+      alert('スコアデータをインポートしました！');
+    } catch (error) {
+      console.error('インポートに失敗:', error);
+      alert('スコアデータのインポートに失敗しました。JSONが正しい形式か確認してください。');
+    }
+  };
+
+  const handleCreateSampleData = () => {
+    try {
+      const sampleScores = createSampleScores();
+      sampleScores.forEach(score => saveScore(score));
+      loadScores();
+      setShowRecovery(false);
+      alert('サンプルデータを作成しました！');
+    } catch (error) {
+      console.error('サンプルデータ作成に失敗:', error);
+      alert('サンプルデータの作成に失敗しました');
+    }
+  };
+
+  const debugLocalStorage = () => {
+    const keys = getAllLocalStorageKeys();
+    console.log('All localStorage keys:', keys);
+    keys.forEach(key => {
+      try {
+        const value = localStorage.getItem(key);
+        console.log(`${key}:`, value ? JSON.parse(value) : value);
+      } catch (e) {
+        console.log(`${key}:`, localStorage.getItem(key));
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,10 +216,10 @@ export default function ScoresPage() {
       if (!yearSubjectMatrix[score.year]) {
         yearSubjectMatrix[score.year] = {} as Record<Subject, ScoreRecord[]>;
       }
-      if (!yearSubjectMatrix[score.year][score.subject]) {
-        yearSubjectMatrix[score.year][score.subject] = [];
+      if (!yearSubjectMatrix[score.year][score.subject as Subject]) {
+        yearSubjectMatrix[score.year][score.subject as Subject] = [];
       }
-      yearSubjectMatrix[score.year][score.subject].push(score);
+      yearSubjectMatrix[score.year][score.subject as Subject].push(score);
     });
 
     return Object.entries(yearSubjectMatrix)
@@ -147,6 +259,58 @@ export default function ScoresPage() {
       {error && (
         <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
           {error}
+        </div>
+      )}
+
+      {/* データ復元UI - スコアが0件の場合のみ表示 */}
+      {scores.length === 0 && (
+        <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+          <div className="flex items-start">
+            <div className="bg-yellow-100 p-2 rounded-lg mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.12 14.5C2.35 16.333 3.31 18 4.852 18z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-yellow-800 mb-2">スコアデータが見つかりません</h3>
+              <p className="text-yellow-700 mb-4">
+                以前に記録したスコアデータが見つからない場合、以下のオプションをお試しください。
+              </p>
+              
+              <div className="flex flex-wrap gap-3">
+                {showRecovery && recoveryData && (
+                  <button
+                    onClick={handleDataRecovery}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                  >
+                    データを復元する ({recoveryData.data.length}件のスコア)
+                  </button>
+                )}
+                
+                <button
+                  onClick={handleCreateSampleData}
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                >
+                  サンプルデータを作成
+                </button>
+                
+                <button
+                  onClick={debugLocalStorage}
+                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                >
+                  デバッグ情報を表示
+                </button>
+              </div>
+              
+              {showRecovery && recoveryData && (
+                <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    <strong>発見されたデータ:</strong> キー「{recoveryData.key}」に{recoveryData.data.length}件のスコアデータがあります。
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
 
@@ -193,7 +357,57 @@ export default function ScoresPage() {
               </div>
             </div>
           </div>
+          <div className="flex flex-col gap-2">
+            <span className="block text-sm font-medium text-gray-700 mb-1">データのエクスポート / インポート</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleExport}
+                className="px-3 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 text-sm transition"
+              >
+                スコアをエクスポート
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowImport(!showImport)}
+                className="px-3 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 text-sm transition"
+              >
+                スコアをインポート
+              </button>
+            </div>
+          </div>
         </div>
+
+        {showImport && (
+          <div className="mt-4 border-t border-gray-200 pt-4">
+            <p className="text-sm text-gray-600 mb-2">
+              ローカル環境や別のブラウザからエクスポートしたスコアJSONをここに貼り付けてインポートできます。
+            </p>
+            <textarea
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              rows={5}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder='[{"id":"...","subject":"企業経営理論","year":2024,"score":72,"date":"2024-08-01",...}]'
+            />
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={handleImport}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm transition"
+              >
+                このJSONでインポートする
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowImport(false); setImportText(''); }}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm transition"
+              >
+                キャンセル
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* アクションボタン */}

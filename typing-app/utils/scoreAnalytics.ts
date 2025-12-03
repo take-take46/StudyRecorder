@@ -174,8 +174,8 @@ export const getComprehensiveResults = (scores: ScoreRecord[]) => {
     
     // 各科目の最高点を取得
     yearScores.forEach(score => {
-      if (!subjectData[score.subject] || subjectData[score.subject] < score.score) {
-        subjectData[score.subject] = score.score;
+      if (!subjectData[score.subject as Subject] || subjectData[score.subject as Subject] < score.score) {
+        subjectData[score.subject as Subject] = score.score;
       }
     });
     
