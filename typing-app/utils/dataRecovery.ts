@@ -82,12 +82,17 @@ export const createSampleScores = (): ScoreRecord[] => {
         const baseScore = 50 + Math.floor(Math.random() * 40); // 50-89点
         sampleScores.push({
           id: `sample-${year}-${index}-${i}-${Date.now()}`,
+          year,
           subject,
           score: baseScore,
-          year,
-          date: new Date(year, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0],
-          examType: '過去問',
-          notes: `サンプルデータ${i + 1}`
+          date: new Date(
+            year,
+            Math.floor(Math.random() * 12),
+            Math.floor(Math.random() * 28) + 1
+          )
+            .toISOString()
+            .split('T')[0],
+          createdAt: new Date().toISOString()
         });
       }
     });
